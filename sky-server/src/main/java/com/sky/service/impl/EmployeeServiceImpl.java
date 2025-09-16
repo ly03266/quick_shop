@@ -109,4 +109,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total,records);  //封装并返回分页结果
     }
 
+    /**
+     * 启动禁用员工账号
+     * @param status
+     * @param id
+     */
+    public void startOrStop(Integer status, Long id) {
+        // update employee set status = ? where id = ?
+        /*Employee employee = new Employee();
+        employee.setStatus(status);
+        employee.setId(id);*/
+
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+    }
+
 }
