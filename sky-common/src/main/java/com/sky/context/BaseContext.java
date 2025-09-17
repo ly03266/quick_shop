@@ -1,5 +1,8 @@
 package com.sky.context;
 
+/**
+ * 获取记录的创建人和修改人
+ */
 public class BaseContext {
 
     public static ThreadLocal<Long> threadLocal = new ThreadLocal<>();

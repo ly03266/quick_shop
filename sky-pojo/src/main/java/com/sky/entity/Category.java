@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 用 @Data 自动生成 getter/setter、toString 等；
+ * 用 @Builder 支持链式创建对象；
+ * 用 @NoArgsConstructor 提供无参构造；
+ * 用 @AllArgsConstructor 提供全参构造。
+ */
 @Data
 @Builder
 @NoArgsConstructor
