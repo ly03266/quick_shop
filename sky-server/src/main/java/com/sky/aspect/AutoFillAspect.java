@@ -5,7 +5,6 @@ import com.sky.constant.AutoFillConstant;
 import com.sky.context.BaseContext;
 import com.sky.enumeration.OperationType;
 import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.Joinpoint;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -26,17 +25,20 @@ public class AutoFillAspect {
     /**
      * 切入点
      */
+    // 返回值类型任意，匹配com.sky.mapper包下的任意类，任意方法，任意参数     匹配被@AutoFill注解标记的方法
     @Pointcut("execution(* com.sky.mapper.*.*(..)) && @annotation(com.sky.annotation.AutoFill)")
     public void autoFillPointCut(){}
     /**
      * 前置通知，在通知中进行公共字段的赋值
      */
-    @Before("autoFillPointCut()")
+    @Before("autoFillPointCut()") // JoinPoint是AOP 提供的连接点对象，用于获取被拦截方法的信息
     public void autoFill(JoinPoint joinPoint){
         log.info("开始进行公共字段自动填充...");
 
         // 1.获取当前被拦截的方法上的数据库操作类型
         // 方法签名对象
+        // MethodSignature是Signature的子接口，专门用于方法签名，增加了获取方法注解、参数类型、返回值类型等与方法相关的特定信息的方法
+        // （如getMethod()、getParameterTypes()）
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         // 获得方法上的注解对象
         AutoFill autoFill = signature.getMethod().getAnnotation(AutoFill.class);
@@ -48,6 +50,7 @@ public class AutoFillAspect {
         if (args == null || args.length == 0){
             return;
         }
+        // 约定 Mapper 方法的第一个参数是实体对象
         Object entity = args[0];
 
         // 3.准备赋值的数据
@@ -58,6 +61,7 @@ public class AutoFillAspect {
         if (operationType == OperationType.INSERT){
             // 为4个公共字段赋值
             try {
+                // 反射：获取实体对象的类对象，通过方法名和参数类型，获取实体类中对应的setter方法
                 Method setCreateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_TIME, LocalDateTime.class);
                 Method setCreateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
