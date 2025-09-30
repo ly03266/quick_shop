@@ -8,6 +8,7 @@ import com.sky.entity.ShoppingCart;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.mapper.ShoppingCartMapper;
+import com.sky.result.Result;
 import com.sky.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -70,25 +71,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * 查看购物车
+     * @return
+     */
+    public List<ShoppingCart> showShoppingCart() {
+        return shoppingCartMapper.list(ShoppingCart.
+                builder().
+                userId(BaseContext.getCurrentId()).
+                build());
+    }
 
 
 }
