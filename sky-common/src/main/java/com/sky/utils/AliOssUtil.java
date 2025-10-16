@@ -9,6 +9,10 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import java.io.ByteArrayInputStream;
 
+/**
+ * AliOssUtil类是一个包含文件上传功能的工具类。
+ */
+/*
 @Data
 @AllArgsConstructor
 @Slf4j
@@ -18,7 +22,7 @@ public class AliOssUtil {
     private String accessKeyId;
     private String accessKeySecret;
     private String bucketName;
-
+*/
     /**
      * 文件上传
      *
@@ -26,6 +30,7 @@ public class AliOssUtil {
      * @param objectName
      * @return
      */
+    /*
     public String upload(byte[] bytes, String objectName) {
 
         // 创建OSSClient实例。
@@ -66,3 +71,4 @@ public class AliOssUtil {
         return stringBuilder.toString();
     }
 }
+*/

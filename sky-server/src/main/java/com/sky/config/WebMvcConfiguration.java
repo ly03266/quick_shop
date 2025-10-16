@@ -12,6 +12,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -32,6 +33,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
     @Autowired
     private JwtTokenUserInterceptor jwtTokenUserInterceptor;
+    // 图片静态路径
+    private static String PIC_PATH = "D:/idea-workspace/sky-take-out/upload/";
 
     /**
      * 注册自定义拦截器
@@ -95,10 +98,25 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @param registry
      * 重写父类中的方法
      */
+//    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+//    }
+
+
+    /**
+     * 设置静态资源映射
+     * @param registry
+     */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        //配置好静态资源路径（有改动的地方）
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("file:"+PIC_PATH);
     }
+
 
     /**
      * 扩展spring MVC 框架的消息转化器
@@ -113,4 +131,6 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         // 将自己的消息转化器加入到容器中 0 表示排在第一位
         converters.add(0,converter);
     }
+
+
 }
